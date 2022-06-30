@@ -133,6 +133,7 @@ posts.forEach(post => {
             </div>
         </div>
     </div>`;
+    
     //aggiungo l'elemento al container
     postContainer.append(postElement);
 
@@ -140,19 +141,25 @@ posts.forEach(post => {
     const likeButton = document.querySelector(`.like-button.js-like-button-${id}`);
 
     //prendo il contatore dei like 
-    //const likeCounter = document.getElementById(`.like-counter-${id}`);
+    let likeCounter = document.getElementById(`like-counter-${id}`).innerHTML;
+    
     //se is_like è true allora il bottone è colorato
     if (post.is_liked === true){
         likeButton.classList.add('like-button--liked');
     };
+    
     //aggiungo l'evento di click al bottone
     likeButton.addEventListener('click', ()=>{
+        //se si clicka sul bottone già liked allora si rimuove il like
         if (post.is_liked === true){
             likeButton.classList.remove('like-button--liked');
-        } else {
-            likeButton.classList.add('like-button--liked')
+            likeCounter--;
+        } else { //altrimenti si aggiunge il like
+            likeButton.classList.add('like-button--liked'); 
+            likeCounter++;
         }
         post.is_liked = !post.is_liked;
+        document.getElementById(`like-counter-${id}`).innerHTML = likeCounter;
     })
 });
 
