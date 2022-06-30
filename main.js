@@ -138,6 +138,15 @@ posts.forEach(post => {
     const likeButton = document.querySelector(`.like-button.js-like-button-${id}`);
     if (post.is_liked === true){
         likeButton.classList.add('like-button--liked');
-    }
+    };
+
+    likeButton.addEventListener('click', ()=>{
+        if (post.is_liked === true){
+            likeButton.classList.remove('like-button--liked');
+        } else {
+            likeButton.classList.add('like-button--liked')
+        }
+        post.is_liked = !post.is_liked;
+    })
 });
 
