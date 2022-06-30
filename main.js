@@ -138,18 +138,21 @@ posts.forEach(post => {
 
     //Prendo il bottone del like
     const likeButton = document.querySelector(`.like-button.js-like-button-${id}`);
+
+    //prendo il contatore dei like 
+    //const likeCounter = document.getElementById(`.like-counter-${id}`);
     //se is_like è true allora il bottone è colorato
     if (post.is_liked === true){
         likeButton.classList.add('like-button--liked');
     };
     //aggiungo l'evento di click al bottone
     likeButton.addEventListener('click', ()=>{
-        if (is_liked === true){
+        if (post.is_liked === true){
             likeButton.classList.remove('like-button--liked');
         } else {
             likeButton.classList.add('like-button--liked')
         }
-        is_liked = !is_liked;
+        post.is_liked = !post.is_liked;
     })
 });
 
