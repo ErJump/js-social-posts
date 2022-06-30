@@ -99,6 +99,7 @@ const posts = [
 
 const postContainer = document.getElementById('container');
 
+//for each per scorrere nell'array e popolare il DOM
 posts.forEach(post => {
     const { id, content, media, author, likes, is_liked, created } = post;
     const postElement = document.createElement('div');
@@ -132,21 +133,23 @@ posts.forEach(post => {
             </div>
         </div>
     </div>`;
-
+    //aggiungo l'elemento al container
     postContainer.append(postElement);
 
+    //Prendo il bottone del like
     const likeButton = document.querySelector(`.like-button.js-like-button-${id}`);
+    //se is_like è true allora il bottone è colorato
     if (post.is_liked === true){
         likeButton.classList.add('like-button--liked');
     };
-
+    //aggiungo l'evento di click al bottone
     likeButton.addEventListener('click', ()=>{
-        if (post.is_liked === true){
+        if (is_liked === true){
             likeButton.classList.remove('like-button--liked');
         } else {
             likeButton.classList.add('like-button--liked')
         }
-        post.is_liked = !post.is_liked;
+        is_liked = !is_liked;
     })
 });
 
