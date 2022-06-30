@@ -101,17 +101,23 @@ const postContainer = document.getElementById('container');
 
 //for each per scorrere nell'array e popolare il DOM
 posts.forEach(post => {
-    const { id, content, media, author, likes, is_liked, created } = post;
+    const { id, content, media, author, likes, created } = post;
     const postElement = document.createElement('div');
+    let date = created; 
+    //formatto la data
+    date = reverseDate(date);
+    
+    
+    //riempio l'inner html dell'elemento con il template del post
     postElement.innerHTML = `<div class="post">
         <div class="post__header">
             <div class="post-meta">
                 <div class="post-meta__icon">
-                    <img class="profile-pic" src="${author.image}" alt="${author.name}">
+                    <img class="profile-pic" src="${author.image}" alt="">
                 </div>
                 <div class="post-meta__data">
                     <div class="post-meta__author">${author.name}</div>
-                    <div class="post-meta__time">${created}</div>
+                    <div class="post-meta__time">${date}</div>
                 </div>
             </div>
         </div>
@@ -134,8 +140,25 @@ posts.forEach(post => {
         </div>
     </div>`;
     
+    
     //aggiungo l'elemento al container
     postContainer.append(postElement);
+    
+    //prendo il contenitore padre del profile pic
+    const profilePicContainer = postElement.getElementsByClassName('post-meta__icon');
+    //prendo l'immagine profilo
+    const originalProfilePic = postElement.getElementsByClassName('profile-pic');
+
+    //se l'immagine dell'author.image è null creo un div e gli assegno la classe "profile-pic-default"
+    if (author.image == null || author.image == 'null') {
+        //rimuovo l'immagine profilo
+        originalProfilePic[0].remove();
+        //creo un nuovo div a cui assegno la classe e inserisco le iniziali
+        const defaultProfilePic = document.createElement('div');
+        defaultProfilePic.classList.add('profile-pic-default');
+        defaultProfilePic.innerHTML = getInitials(author.name);
+        profilePicContainer[0].append(defaultProfilePic);
+    }
 
     //Prendo il bottone del like
     const likeButton = document.querySelector(`.like-button.js-like-button-${id}`);
@@ -161,5 +184,25 @@ posts.forEach(post => {
         post.is_liked = !post.is_liked;
         document.getElementById(`like-counter-${id}`).innerHTML = likeCounter;
     })
+
+    console.log(getInitials(author.name));
 });
+
+//Bonus 2 - formatta la data
+function reverseDate(date) {
+    let year = date.substring(0, 4);
+    let month = date.substring(5, 7);
+    let day = date.substring(8, 10);
+    return `${day}/${month}/${year}`;
+}
+
+//funzione che restituisce le iniziali
+function getInitials(completeName) {
+    let nameSurname = completeName.split(' ');
+    let initials = '';
+    nameSurname.forEach(element => {
+        initials += element[0]
+    });
+    return initials
+}
 
